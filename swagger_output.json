@@ -1,0 +1,183 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "My API",
+    "description": "Usign Swagger autogen"
+  },
+  "host": "localhost:3001",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Posts",
+      "description": "Endpoints"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/posts/": {
+      "get": {
+        "tags": [
+          "Posts"
+        ],
+        "description": "Get all posts",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "all posts.",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Posts"
+        ],
+        "description": "add a post",
+        "parameters": [
+          {
+            "name": "newPost",
+            "in": "body",
+            "description": "post information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddPost"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "new post.",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "delete": {
+        "tags": [
+          "Posts"
+        ],
+        "description": "Delete a post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "post id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Posts"
+        ],
+        "description": "Update a post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "post id"
+          },
+          {
+            "name": "newPost",
+            "in": "body",
+            "description": "post information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddPost"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Post": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "a.B_2"
+        },
+        "title": {
+          "type": "string",
+          "example": "a post"
+        },
+        "author": {
+          "type": "string",
+          "example": "Jhon Doe"
+        }
+      }
+    },
+    "Posts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "a.B_2"
+          },
+          "title": {
+            "type": "string",
+            "example": "a post"
+          },
+          "author": {
+            "type": "string",
+            "example": "Jhon Doe"
+          }
+        }
+      }
+    },
+    "AddPost": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "a new post"
+        },
+        "author": {
+          "type": "string",
+          "example": "Jhon Doe"
+        }
+      },
+      "required": [
+        "title",
+        "author"
+      ]
+    }
+  }
+}
