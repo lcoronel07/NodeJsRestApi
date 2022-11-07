@@ -7,8 +7,8 @@ const endpointsFiles = ['src/endpoints.js']
 const doc = {
     info: {
         version: "1.0.0",
-        title: "My API",
-        description: "Usign Swagger autogen"
+        title: "Vet Appointments API",
+        description: "First version of API to manage vet appointments."
     },
     host: "localhost:3001",
     basePath: "/",
@@ -17,29 +17,76 @@ const doc = {
     produces: ['application/json'],
     tags: [
         {
-            "name": "Posts",
+            "name": "Veterinarians",
+            "description": "Endpoints"
+        },
+        {
+            "name": "Species",
             "description": "Endpoints"
         }
     ],
     definitions: {
-        Post: {
-            id: "a.B_2",
-            title: "a post",
-            author: "Jhon Doe"
+        Veterinarian: {
+            
+            name: "John Snow",
+            regNumber: "11112"
         },
-        Posts: [
+        Veterinarians: [
             {
-                id: "a.B_2",
-                title: "a post",
-                author: "Jhon Doe"
+                vetId: "a2s44",
+                name: "John Snow",
+                regNumber: "11112"
             },
 
         ],
-        AddPost: {
-            $title: "a new post",
-            $author: "Jhon Doe"
-
-        }
+        Species: {
+            
+            name: "Dinosaur"
+        },
+        Patient: {
+            
+            name: "Rex",
+            speciesId: "1t112",
+            sex: "F",
+            isNurtured: true,
+            dateOfBirth: "07/11/2021"
+        },
+        Patients: [
+            {
+                patientId: "er332",
+                name: "Rex",
+                speciesId: "1t112",
+                sex: "F",
+                isNurtured: true,
+                dateOfBirth: "07/11/2021"
+            },
+        ],
+        Slot: {
+            
+            vetId: "23123",
+            time: 9
+        },
+        Slots: [
+            {
+                slotId: "er332",
+                vetId: "23123",
+                time: 9
+            },
+        ],
+        Appointment: {
+            
+            slotId: "23123",
+            patientId: "e2322",
+            date: "02/12/2022"
+        },
+        Appointments: [
+            {
+                appointmentId: "67b32",
+                slotId: "23123",
+                patientId: "e2322",
+                date: "02/12/2022"
+            },
+        ],
     }
 }
 

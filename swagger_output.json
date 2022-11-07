@@ -2,14 +2,18 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "My API",
-    "description": "Usign Swagger autogen"
+    "title": "Vet Appointments API",
+    "description": "First version of API to manage vet appointments."
   },
   "host": "localhost:3001",
   "basePath": "/",
   "tags": [
     {
-      "name": "Posts",
+      "name": "Veterinarians",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Species",
       "description": "Endpoints"
     }
   ],
@@ -24,61 +28,117 @@
     "application/json"
   ],
   "paths": {
-    "/posts/": {
+    "/veterinarians/": {
       "get": {
         "tags": [
-          "Posts"
+          "Veterinarians"
         ],
-        "description": "Get all posts",
+        "description": "Get all veterinarians",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "all posts.",
+            "description": "all veterinarians.",
             "schema": {
-              "$ref": "#/definitions/Posts"
+              "$ref": "#/definitions/Veterinarians"
             }
           }
         }
       },
       "post": {
         "tags": [
-          "Posts"
+          "Veterinarians"
         ],
-        "description": "add a post",
+        "description": "add a vet",
         "parameters": [
           {
-            "name": "newPost",
+            "name": "newVet",
             "in": "body",
-            "description": "post information",
+            "description": "vet information",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/AddPost"
+              "$ref": "#/definitions/Veterinarian"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "new post.",
+            "description": "new vet.",
             "schema": {
-              "$ref": "#/definitions/Post"
+              "$ref": "#/definitions/Veterinarian"
             }
+          },
+          "201": {
+            "description": "Created"
           }
         }
       }
     },
-    "/posts/{id}": {
-      "delete": {
+    "/veterinarians/{vetId}": {
+      "get": {
         "tags": [
-          "Posts"
+          "Veterinarians"
         ],
-        "description": "Delete a post",
+        "description": "Get veterinarian by Id",
         "parameters": [
           {
-            "name": "id",
+            "name": "vetId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Veterinarian by Id.",
+            "schema": {
+              "$ref": "#/definitions/Veterinarian"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Veterinarians"
+        ],
+        "description": "Delete a vet",
+        "parameters": [
+          {
+            "name": "vetId",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "post id"
+            "description": "Id of vet"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Veterinarians"
+        ],
+        "description": "Update a vet",
+        "parameters": [
+          {
+            "name": "vetId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "newVet",
+            "in": "body",
+            "description": "vet information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Veterinarian"
+            }
           }
         ],
         "responses": {
@@ -89,27 +149,611 @@
             "description": "Bad Request"
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/veterinarians/{vetId}/slots": {
+      "get": {
         "tags": [
-          "Posts"
+          "Veterinarians"
         ],
-        "description": "Update a post",
+        "description": "Get veterinarian",
         "parameters": [
           {
-            "name": "id",
+            "name": "vetId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Slots by Veterinarian Id.",
+            "schema": {
+              "$ref": "#/definitions/Slots"
+            }
+          }
+        }
+      }
+    },
+    "/species/": {
+      "get": {
+        "tags": [
+          "Species"
+        ],
+        "description": "Get all Species",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "All Species.",
+            "schema": {
+              "$ref": "#/definitions/Species"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Species"
+        ],
+        "description": "add a Species",
+        "parameters": [
+          {
+            "name": "newSpecies",
+            "in": "body",
+            "description": "Species information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Species"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "new Species.",
+            "schema": {
+              "$ref": "#/definitions/Species"
+            }
+          },
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/species/{speciesId}": {
+      "get": {
+        "tags": [
+          "Species"
+        ],
+        "description": "Get Species by Id",
+        "parameters": [
+          {
+            "name": "speciesId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Species by Id.",
+            "schema": {
+              "$ref": "#/definitions/Species"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Species"
+        ],
+        "description": "Delete a Species",
+        "parameters": [
+          {
+            "name": "speciesId",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "post id"
+            "description": "Id of Species"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Species"
+        ],
+        "description": "Update a Species",
+        "parameters": [
+          {
+            "name": "speciesId",
+            "in": "path",
+            "required": true,
+            "type": "string"
           },
           {
-            "name": "newPost",
+            "name": "newSpecies",
             "in": "body",
-            "description": "post information",
+            "description": "Species information",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/AddPost"
+              "$ref": "#/definitions/Species"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/species/{speciesId}/patients": {
+      "get": {
+        "tags": [
+          "Species"
+        ],
+        "description": "Get patients by species id",
+        "parameters": [
+          {
+            "name": "speciesId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Patients by Species Id.",
+            "schema": {
+              "$ref": "#/definitions/Species"
+            }
+          }
+        }
+      }
+    },
+    "/patients/": {
+      "get": {
+        "tags": [
+          "Patients"
+        ],
+        "description": "Get all patients",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "all patients.",
+            "schema": {
+              "$ref": "#/definitions/Patients"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Patients"
+        ],
+        "description": "add a patient",
+        "parameters": [
+          {
+            "name": "newPatient",
+            "in": "body",
+            "description": "patient information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Patient"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "new patient.",
+            "schema": {
+              "$ref": "#/definitions/Patient"
+            }
+          },
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/patients/{patientId}": {
+      "get": {
+        "tags": [
+          "Patients"
+        ],
+        "description": "Get patients by Id",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Patient by Id.",
+            "schema": {
+              "$ref": "#/definitions/Patient"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Patients"
+        ],
+        "description": "Delete a patient",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Id of patient"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Patients"
+        ],
+        "description": "Update a patient",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "newPatient",
+            "in": "body",
+            "description": "patient information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Patient"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/patients/{patientId}/appointments": {
+      "get": {
+        "tags": [
+          "Patients"
+        ],
+        "description": "Get appointments by patient",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Appointments by patient.",
+            "schema": {
+              "$ref": "#/definitions/Appointments"
+            }
+          }
+        }
+      }
+    },
+    "/slots/": {
+      "get": {
+        "tags": [
+          "Slots"
+        ],
+        "description": "Get all slots",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "all slots.",
+            "schema": {
+              "$ref": "#/definitions/Slots"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Slots"
+        ],
+        "description": "add a slot",
+        "parameters": [
+          {
+            "name": "newSlot",
+            "in": "body",
+            "description": "slot information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Slot"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "new slot.",
+            "schema": {
+              "$ref": "#/definitions/Slot"
+            }
+          },
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/slots/{slotId}": {
+      "get": {
+        "tags": [
+          "Slots"
+        ],
+        "description": "Get slot by Id",
+        "parameters": [
+          {
+            "name": "slotId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Slot by Id.",
+            "schema": {
+              "$ref": "#/definitions/Slot"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Slots"
+        ],
+        "description": "Delete a slot",
+        "parameters": [
+          {
+            "name": "slotId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Id of slot"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Slots"
+        ],
+        "description": "Update a slot",
+        "parameters": [
+          {
+            "name": "slotId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "newSlot",
+            "in": "body",
+            "description": "slot information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Slot"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/slots/{slotId}/appointments": {
+      "get": {
+        "tags": [
+          "Slots"
+        ],
+        "description": "Get appointments by slot",
+        "parameters": [
+          {
+            "name": "slotId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Appointments by Slot Id.",
+            "schema": {
+              "$ref": "#/definitions/Appointment"
+            }
+          }
+        }
+      }
+    },
+    "/slots?": {
+      "get": {
+        "tags": [
+          "Slots"
+        ],
+        "description": "Get slots by vet id",
+        "parameters": [
+          {
+            "name": "vetId",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get slots by vet.",
+            "schema": {
+              "$ref": "#/definitions/Slots"
+            }
+          }
+        }
+      }
+    },
+    "/appointments/": {
+      "get": {
+        "tags": [
+          "Appointments"
+        ],
+        "description": "Get all appointments",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "all appointments.",
+            "schema": {
+              "$ref": "#/definitions/Appointments"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Appointments"
+        ],
+        "description": "add an appointment",
+        "parameters": [
+          {
+            "name": "newAppointment",
+            "in": "body",
+            "description": "appointment information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Appointment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "new appointment.",
+            "schema": {
+              "$ref": "#/definitions/Appointment"
+            }
+          },
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/appointments/{appId}": {
+      "get": {
+        "tags": [
+          "Appointments"
+        ],
+        "description": "Get appointment by Id",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Appointment by Id.",
+            "schema": {
+              "$ref": "#/definitions/Appointment"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Appointments"
+        ],
+        "description": "Delete an appointment",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appointmentId",
+            "description": "Id of appointment",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Appointments"
+        ],
+        "description": "Update an appointment",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "newAppointment",
+            "in": "body",
+            "description": "appointment information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Appointment"
             }
           }
         ],
@@ -125,59 +769,178 @@
     }
   },
   "definitions": {
-    "Post": {
+    "Veterinarian": {
       "type": "object",
       "properties": {
-        "id": {
+        "name": {
           "type": "string",
-          "example": "a.B_2"
+          "example": "John Snow"
         },
-        "title": {
+        "regNumber": {
           "type": "string",
-          "example": "a post"
-        },
-        "author": {
-          "type": "string",
-          "example": "Jhon Doe"
+          "example": "11112"
         }
       }
     },
-    "Posts": {
+    "Veterinarians": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "id": {
+          "vetId": {
             "type": "string",
-            "example": "a.B_2"
+            "example": "a2s44"
           },
-          "title": {
+          "name": {
             "type": "string",
-            "example": "a post"
+            "example": "John Snow"
           },
-          "author": {
+          "regNumber": {
             "type": "string",
-            "example": "Jhon Doe"
+            "example": "11112"
           }
         }
       }
     },
-    "AddPost": {
+    "Species": {
       "type": "object",
       "properties": {
-        "title": {
+        "name": {
           "type": "string",
-          "example": "a new post"
-        },
-        "author": {
-          "type": "string",
-          "example": "Jhon Doe"
+          "example": "Dinosaur"
         }
-      },
-      "required": [
-        "title",
-        "author"
-      ]
+      }
+    },
+    "Patient": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Rex"
+        },
+        "speciesId": {
+          "type": "string",
+          "example": "1t112"
+        },
+        "sex": {
+          "type": "string",
+          "example": "F"
+        },
+        "isNurtured": {
+          "type": "boolean",
+          "example": true
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "example": "07/11/2021"
+        }
+      }
+    },
+    "Patients": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "type": "string",
+            "example": "er332"
+          },
+          "name": {
+            "type": "string",
+            "example": "Rex"
+          },
+          "speciesId": {
+            "type": "string",
+            "example": "1t112"
+          },
+          "sex": {
+            "type": "string",
+            "example": "F"
+          },
+          "isNurtured": {
+            "type": "boolean",
+            "example": true
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "example": "07/11/2021"
+          }
+        }
+      }
+    },
+    "Slot": {
+      "type": "object",
+      "properties": {
+        "vetId": {
+          "type": "string",
+          "example": "23123"
+        },
+        "time": {
+          "type": "number",
+          "example": 9
+        }
+      }
+    },
+    "Slots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "slotId": {
+            "type": "string",
+            "example": "er332"
+          },
+          "vetId": {
+            "type": "string",
+            "example": "23123"
+          },
+          "time": {
+            "type": "number",
+            "example": 9
+          }
+        }
+      }
+    },
+    "Appointment": {
+      "type": "object",
+      "properties": {
+        "slotId": {
+          "type": "string",
+          "example": "23123"
+        },
+        "patientId": {
+          "type": "string",
+          "example": "e2322"
+        },
+        "date": {
+          "type": "string",
+          "example": "02/12/2022"
+        }
+      }
+    },
+    "Appointments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "appointmentId": {
+            "type": "string",
+            "example": "67b32"
+          },
+          "slotId": {
+            "type": "string",
+            "example": "23123"
+          },
+          "patientId": {
+            "type": "string",
+            "example": "e2322"
+          },
+          "date": {
+            "type": "string",
+            "example": "02/12/2022"
+          }
+        }
+      }
     }
   }
 }
